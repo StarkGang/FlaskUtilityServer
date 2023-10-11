@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Copy To Server</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/min/dropzone.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text">
+            Input Text
+        </div>
+        <form id="copyForm" action="/copy" method="post">
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" name="copy_text" required>
+                    <div class="underline"></div>
+                    <label for="copy_text">Enter Text To Copy</label>
+                </div>
+            </div>
+            <br />
+            <div class="form-row submit-btn">
+                <div class="input-data">
+                    <div class="inner"></div>
+                    <input type="submit" value="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Overlay and Popup -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Notice</h2>
+        <div class="popup-text-container">
+            <p id="popup-text" class="typewriter"></p>
+        </div>
+        <button>Back</button>
+    </div>
+
+    <script>
+    $(document).ready(function () {
+        let popupShown = false;
+
+        function showPopup(copiedText) {
+            if (!popupShown) {
+                $("#popup-text").empty();
+                $("#popup").show();
+                $("#overlay").show();
+
+                let index = 0;
+                function type() {
+                    if (index < copiedText.length) {
+                        $("#popup-text").append(copiedText.charAt(index));
+                        index++;
+                        setTimeout(type, 50);
+                    }
+                }
+
+                type();
+
+                popupShown = true;
+            }
+        }
+
+        function closePopup() {
+            $("#popup").hide();
+            $("#overlay").hide();
+            popupShown = false;
+        }
+
+        $("#copyForm").submit(function (event) {
+            event.preventDefault();
+
+            $("#copyForm :submit").prop("disabled", true);
+
+            $.ajax({
+                type: 'POST',
+                url: '/copy',
+                data: $(this).serialize(),
+                success: function (response) {
+                    closePopup();
+                    showPopup("Text has been copied to clipboard");
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    $("#copyForm :submit").prop("disabled", false);
+                }
+            });
+        });
+
+        // Adding event handler using jQuery
+        $("#popup button").on("click", function () {
+            closePopup();
+        });
+    });
+    </script>
+
+</body>
+
+</html>

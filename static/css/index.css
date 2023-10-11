@@ -1,0 +1,50 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url('https://source.unsplash.com/1920x1080/?technology') center/cover;
+    background-color: #000; /* Fallback color */
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    margin-top: 50px;
+  }
+
+  h1,
+  h5 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+  }
+
+  .card {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .card-title {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .card-text {
+    font-size: 18px;
+    color: #eee;
+  }
+
+  .btn-primary {
+    background-color: #4CAF50;
+    border: none;
+  }

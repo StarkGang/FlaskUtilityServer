@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Terminal</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/term.css"> 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <div class="scanline"></div>
+    <div class="wrapper">
+        <div class="content clearfix">
+            <header class="site clearfix">
+                <div class="col one">
+                    <img src="../static/img/nicon.png" alt="WS" width="850" height="900" id="logo-v" />
+                </div>
+                <div class="col two">
+                    <h4>Welcome To Terminal! Powered by WS</h4>
+                    <div id="commandContainer">
+                        <form id="commandForm">
+                            <label for="user_input">Enter your command:</label>
+                            <input type="text" id="user_input" name="user_input" required>
+                        </form>
+                    </div>
+
+                    <div id="outputContainer">
+                        <p id="outputLabel">Output:</p>
+                        <pre id="output"></pre>
+                    </div>
+                </div>
+            </header>
+            <nav class="site clear">
+                <ul>
+                    <li><a href="/" title="">Return Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        $(document).ready(function () {
+            $('#user_input').keydown(function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var userInput = $(this).val();
+                    socket.emit('execute_code', { code: userInput });
+                }
+            });
+            socket.on('execution_result', function (data) {
+                $('#output').text(data.result);
+            });
+        });
+    </script>
+</body>
+
+</html>

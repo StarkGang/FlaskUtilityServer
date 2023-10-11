@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>File upload with Dropzone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/min/dropzone.min.css">
+    <link rel="stylesheet" href="../static/css/up.css">
+</head>
+
+<body>
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-logo">
+                <span class="logo-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="419.116" viewBox="0 0 512 419.116">
+                        <defs>
+                            <clipPath id="clip-folder-new">
+                                <rect width="512" height="419.116" />
+                            </clipPath>
+                        </defs>
+                        <g id="folder-new" clip-path="url(#clip-folder-new)">
+                            <path id="Union_1" data-name="Union 1" d="M16.991,419.116A16.989,16.989,0,0,1,0,402.125V16.991A16.989,16.989,0,0,1,16.991,0H146.124a17,17,0,0,1,10.342,3.513L227.217,57.77H437.805A16.989,16.989,0,0,1,454.8,74.761v53.244h40.213A16.992,16.992,0,0,1,511.6,148.657L454.966,405.222a17,17,0,0,1-16.6,13.332H410.053v.562ZM63.06,384.573H424.722L473.86,161.988H112.2Z"
+                                fill="var(--c-action-primary)" stroke="" stroke-width="1" />
+                        </g>
+                    </svg>
+                </span>
+            </div>
+            <button class="btn-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="none" d="M0 0h24v24H0V0z" />
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
+                        fill="var(--c-text-secondary)" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h2 class="modal-title">Upload a file</h2>
+            <p class="modal-description">Attach the file below</p>
+            <form action="/upload" method="post" class="dropzone" id="uploadForm">
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="btnCancel">Cancel</button>
+            <button class="btn-primary" onclick="document.getElementById('myDropzone').submit()">Upload File</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+
+    <script>
+        Dropzone.options.uploadForm = {
+            paramName: 'file',
+            maxFilesize: 1025,
+            chunking: true,
+            forceChunking: true,
+            chunkSize: 1000000,
+            init: function () {
+                var myDropzone = this; // Store a reference to the Dropzone instance
+
+                this.on("sending", function (file, xhr, formData) {
+                    formData.append("key", "value");
+                });
+
+                this.on("success", function (file, response) {
+                    console.log(response);
+                });
+
+                this.on("error", function (file, errorMessage) {
+                    console.log(errorMessage);
+                });
+
+                // Add click event handler for the Cancel button
+                document.getElementById('btnCancel').addEventListener('click', function () {
+                    myDropzone.removeAllFiles(); // Clear all files
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Explorer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/fl.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">&#8592; Back</button>
+            <h1>File Explorer</h1>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search files..." value="{{ search_query }}" oninput="searchFiles(this.value)">
+            <button class="search-button" onclick="searchFiles(document.querySelector('.search-input').value)">Search</button>
+        </div>
+
+        <div class="file-list-container">
+            <ul class="file-list">
+                {% if current_path %}
+                    <li class="file-list-item">
+                        <img class="file-icon folder-icon" src="../static/img/fd.png" alt="Folder" data-path="{{ current_path }}">
+                        <span class="file-name">{{ current_path }}</span>
+                    </li>
+                {% endif %}
+                {% for file in files %}
+                    <li class="file-list-item">
+                        {% if file.type == 'folder' %}
+                            <img class="file-icon folder-icon" src="../static/img/fd.png" alt="Folder" data-path="{{ file.name }}">
+                            <span class="file-name">{{ file.name }}</span>
+                        {% else %}
+                            <img class="file-icon" src="../static/img/file_sy.png" alt="File">
+                            <a href="{{ url_for('download', filename=file.name) }}" class="file-name">{{ file.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function searchFiles(query) {
+            window.location.href = '/?search=' + query;
+        }
+
+        function goBack() {
+            window.location.href = '/files';
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('folder-icon')) {
+                event.preventDefault();
+                const folderPath = event.target.dataset.path;
+                loadFolderContent(folderPath);
+            }
+        });
+
+        function loadFolderContent(folderPath) {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const fileList = document.querySelector('.file-list');
+                        fileList.innerHTML = xhr.responseText;
+                    } else {
+                        console.error('Failed to load folder content');
+                    }
+                }
+            };
+
+            xhr.open('GET', `/folder?path=${folderPath}`);
+            xhr.send();
+        }
+
+        // Change background color randomly
+        function changeBackgroundColor() {
+            const randomColor = getRandomColor();
+            document.body.style.backgroundColor = randomColor;
+            document.querySelector('.container').style.backgroundColor = '#fff'; // Reset container background color
+            setTimeout(changeBackgroundColor, 5000); // Change color every 5 seconds
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Initial call to start changing background color
+        changeBackgroundColor();
+    </script>
+</body>
+</html>

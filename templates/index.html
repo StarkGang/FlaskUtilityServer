@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="../static/css/index.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="display-3">Hello! What would you like to do today?</h1>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-copy"></i> Copy Text</h5>
+            <p class="card-text">Copy a URL and store it in a CSV file.</p>
+            <a href="/copy" class="btn btn-primary">Go to Copy Page</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-upload"></i> File Upload</h5>
+            <p class="card-text">Upload files with Dropzone.</p>
+            <a href="/upload" class="btn btn-primary">Go to Upload Page</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-folder"></i> File Manager</h5>
+            <p class="card-text">Manage and download uploaded files.</p>
+            <a href="/files/" class="btn btn-primary">Go to File Manager</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-info"></i> System Information</h5>
+            <p class="card-text">View system information.</p>
+            <a href="/sys_info" class="btn btn-primary">Go to System Info</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 offset-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-terminal"></i> Remote Terminal</h5>
+            <p class="card-text">Run commands remotely using Socket.IO.</p>
+            <a href="/terminal" class="btn btn-primary">Go to Remote Terminal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+</body>
+
+</html>
