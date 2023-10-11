@@ -31,7 +31,7 @@ excluded_paths = ['/static', '/favicon.ico', '/login', '/login_page', '/template
 @app.before_request
 def before_request():
     if 'username' not in session and request.endpoint not in ['login', 'login_page'] and not any(request.path.startswith(path) for path in excluded_paths):
-        return redirect(url_for('login_page'))
+        return redirect('/login_page')
 
 socketio = SocketIO(app)
 
@@ -69,7 +69,7 @@ def run_command(command):
 @socketio.on('execute_code')
 def execute_code(data):
     if 'username' not in session and request.endpoint not in ['login', 'login_page'] and not any(request.path.startswith(path) for path in excluded_paths):
-        return redirect(url_for('login_page'))
+        return redirect('/login_page')
     command = data['code']
     utils = UTILS()
     to_return = ""

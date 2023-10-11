@@ -41,14 +41,45 @@ This project utilizes various dependencies to enhance its functionality. Special
 ```python main.py```
 or use ```uvicorn main:app``` btw Use uvicorn for production, who would you do that?
 
-7. Access the app in your browser: [http://localhost:8081](http://localhost:8080) or check your host & port.
+7. Access the app in your browser: [http://localhost:8080](http://localhost:8080) or check your host & port.
 
 ## Acknowledgments
 Special thanks to the developers of the dependencies that make this project possible. Additionally, credit to [Psutil Dashboard](https://github.com/gopalcnepal/psutil-dashboard) for the device information template that inspired and facilitated the integration of Psutil in this app.
 
 ## Contributing
-If you would like to contribute to this project, please follow our [Contribution Guidelines](CONTRIBUTING.md).
+If you would like to contribute to this project, please read improvements section to know what needs to be improved in this project
 
 ## License
 This project is licensed under the GNUV3 License - see the [LICENSE](LICENSE) file for details.
 Happy networking!
+
+
+# Screenshots
+
+## Here are some screenshots:
+
+Index page
+![Photo 1](screenshots/1.png)
+
+Copy from Server to clipboard
+![Photo 2](screenshots/2.png)
+
+File Explorer
+![Photo 3](screenshots/3.png)
+
+System Info
+![Photo 4](screenshots/4.png)
+
+
+Terminal
+![Photo 6](screenshots/5.png)
+
+Login Page
+![Photo 7](screenshots/6.png)
+
+
+## Improvements
+   - Requires some improvements in styling
+   - Add more secure login system & do bug hunting
+   - Improve speeds
+
