@@ -71,11 +71,14 @@ System Info
 ![Photo 4](screenshots/4.png)
 
 
-Terminal
+Login Page
 ![Photo 6](screenshots/5.png)
 
-Login Page
+Terminal
 ![Photo 7](screenshots/6.png)
+
+
+
 
 
 ## Improvements
