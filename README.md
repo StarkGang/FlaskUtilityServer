@@ -39,9 +39,9 @@ This project utilizes various dependencies to enhance its functionality. Special
 
 5. Run the Flask application:
 ```python main.py```
-or use ```uvicorn main:app``` btw Use uvicorn for production, who would do that?
+or use ```uvicorn main:app``` btw Use uvicorn for production, who would you do that?
 
-7. Access the app in your browser: [http://localhost:5000](http://localhost:5000) or check your host & port.
+7. Access the app in your browser: [http://localhost:8081](http://localhost:8080) or check your host & port.
 
 ## Acknowledgments
 Special thanks to the developers of the dependencies that make this project possible. Additionally, credit to [Psutil Dashboard](https://github.com/gopalcnepal/psutil-dashboard) for the device information template that inspired and facilitated the integration of Psutil in this app.

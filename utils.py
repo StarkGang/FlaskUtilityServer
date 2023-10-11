@@ -41,8 +41,8 @@ def get_ipv4_address(logger: Logger) -> str:
         if result.returncode == 0:
             ipv4_pattern = compile(r'IPv4 Address[.\s]+:\s*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)')
             if match := ipv4_pattern.search(result.stdout):
-                logger.info(f"IPv4 Address found: {match.group(1)}")
-                return match.group(1)
+                logger.info(f"IPv4 Address found: {match[1]}")
+                return match[1]
             else:
                 logger.warning("IPv4 Address not found")
                 return "0.0.0.0"
@@ -295,14 +295,13 @@ def get_network_info():
 
     for interface_name, interface_addresses in if_addrs.items():
         for address in interface_addresses:
-            if int(address.family) == 2:
-                if interface_name in io_counter:
-                    io = io_counter[interface_name]
-                    network_data[interface_name] = {
-                        'name': interface_name,
-                        'ip_address': address.address,
-                        'sent_bytes': bytes2human(io.bytes_sent),
-                        'received_bytes': bytes2human(io.bytes_recv),
-                    }
+            if int(address.family) == 2 and interface_name in io_counter:
+                io = io_counter[interface_name]
+                network_data[interface_name] = {
+                    'name': interface_name,
+                    'ip_address': address.address,
+                    'sent_bytes': bytes2human(io.bytes_sent),
+                    'received_bytes': bytes2human(io.bytes_recv),
+                }
 
     return network_data

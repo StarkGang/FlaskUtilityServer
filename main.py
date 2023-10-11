@@ -6,7 +6,6 @@
 #
 # All rights reserved.
 
-
 from flask import Flask, render_template, request, make_response, send_file, jsonify, session, redirect, url_for
 from os import path as os_path
 from werkzeug.utils import secure_filename
