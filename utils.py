@@ -19,6 +19,8 @@ import psutil
 from datetime import datetime
 from psutil._common import bytes2human
 import logging
+import io
+from PIL import ImageGrab
 from psutil._common import bytes2human
 from datetime import datetime
 from config import CONFIG
@@ -26,8 +28,15 @@ from bs4 import BeautifulSoup
 from csv import reader, writer
 from typing import Any, Union
 from flask import Flask
+import subprocess
 
 logger = logging.getLogger()
+
+
+def run_command(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output, error = process.communicate()
+    return output, error
 
 def init_base(app: Flask, base_dl_path: str, upload_to: str) -> None:
     """Initialise the logger and base download path, upload path"""
@@ -52,6 +61,17 @@ def get_ipv4_address(logger: Logger) -> str:
     except Exception as e:
         logger.exception(f"An error occurred: {str(e)}")
         return "0.0.0.0"
+    
+
+def screenshot():
+    img = ImageGrab.grab(bbox=(0, 0, 800, 600), include_layered_windows=True)  # Adjust the bbox as needed
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    return buffered.getvalue()
+
+def generate():
+    return (b'--frame\r\n'
+               b'Content-Type: image/png\r\n\r\n' + screenshot() + b'\r\n\r\n')
     
 
 def check_folder_exists(folder_path: Union[str, list]) -> bool:

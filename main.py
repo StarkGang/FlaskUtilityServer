@@ -24,18 +24,21 @@ upload_to = CONFIG.UPLOAD_FOLDER
 app.secret_key = CONFIG.SECRET_KEY
 valid_username = CONFIG.SECRET_USERNAME
 hashed_password = sha256_crypt.hash(CONFIG.SECRET_PASSWORD)
+socketio = SocketIO(app)
+init_base(app, base_dl_path, upload_to)
+excluded_paths = ['/clock', '/static', '/favicon.ico', '/login', '/login_page', '/templates', '/static/img', '/matrix']
 
-
-excluded_paths = ['/static', '/favicon.ico', '/login', '/login_page', '/templates', '/static/img']
 
 @app.before_request
 def before_request():
     if 'username' not in session and request.endpoint not in ['login', 'login_page'] and not any(request.path.startswith(path) for path in excluded_paths):
         return redirect('/login_page')
 
-socketio = SocketIO(app)
 
-init_base(app, base_dl_path, upload_to)
+@app.route('/matrix')
+def matrix():
+    return render_template('matrix.html', speed=50)
+
 
 @app.route('/terminal')
 def terminal():
@@ -60,11 +63,6 @@ def login_p():
     else:
         return jsonify({'error': 'Invalid credentials'})
 
-
-def run_command(command):
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    output, error = process.communicate()
-    return output, error
 
 @socketio.on('execute_code')
 def execute_code(data):
