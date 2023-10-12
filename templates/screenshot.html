@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css'>
+  <link rel="stylesheet" href="../static/css/ss.css">
+  <style>
+  </style>
+</head>
+<body>
+
+  <div id="imageContainer">
+    <img id="screenshotImage" src="" alt="Screenshot Image">
+  </div>
+
+  <div class="fixed-button-container">
+    <div class="button" tabindex="1" onclick="captureScreenshot()">
+      <span class="ion-log-in"></span>
+    </div>
+  </div>
+
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+  <script>
+    function captureScreenshot() {
+      $.ajax({
+        url: '/screenshot',
+        method: 'POST',
+        dataType: 'json',
+        success: function (data) {
+          displayImage(data.img_base64);
+        },
+        error: function (error) {
+          console.error('Error capturing screenshot:', error);
+        }
+      });
+    }
+    function displayImage(base64Image) {
+      $('#screenshotImage').attr('src', 'data:image/png;base64,' + base64Image);
+      $('#imageContainer').show();
+      $('.stuff').hide();
+    }
+  </script>
+</body>
+</html>

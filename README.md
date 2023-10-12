@@ -5,6 +5,14 @@
 
 This Flask application provides a convenient way to perform various tasks related to your network. From uploading files to your PC and downloading from it, to copying text to your PC from devices connected to your network, this app has got you covered. Additionally, it offers a feature to display information about devices, including details such as battery status, memory usage, and more.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 1. **File Operations:**
@@ -21,6 +29,8 @@ This Flask application provides a convenient way to perform various tasks relate
 4. **Execute Code:**
    - Run and execute code in main server using socketio
 
+5. **Take Screenshots**
+   - Taken screenshot of your main server / pc from other devices
 
 ## Dependencies
 
@@ -77,7 +87,8 @@ Login Page
 Terminal
 ![Photo 7](screenshots/6.png)
 
-
+Screenshot Capture
+![Photo 8](screenshots/7.png)
 
 
 
@@ -85,4 +96,4 @@ Terminal
    - Requires some improvements in styling
    - Add more secure login system & do bug hunting
    - Improve speeds
-
+   - Optimize pages for other platforms

@@ -6,12 +6,13 @@
 #
 # All rights reserved.
 
+import base64
 from flask import Flask, render_template, request, make_response, send_file, jsonify, session, redirect, url_for
 from os import path as os_path
 from werkzeug.utils import secure_filename
 from time import time_ns
 from pyperclip import copy as copy_to_clipboard
-import subprocess
+from PIL import ImageGrab
 from config import CONFIG
 from flask_socketio import SocketIO
 from term_utils import UTILS
@@ -25,27 +26,128 @@ app.secret_key = CONFIG.SECRET_KEY
 valid_username = CONFIG.SECRET_USERNAME
 hashed_password = sha256_crypt.hash(CONFIG.SECRET_PASSWORD)
 socketio = SocketIO(app)
-init_base(app, base_dl_path, upload_to)
-excluded_paths = ['/clock', '/static', '/favicon.ico', '/login', '/login_page', '/templates', '/static/img', '/matrix']
+excluded_paths = ['/static', '/favicon.ico', '/login', '/login_page', '/templates', '/static/img', '/matrix']
 
+
+@app.errorhandler(Exception)
+def handle_error(error):
+    """
+Handles the error raised by the Flask application.
+
+The function prints the error message, retrieves the error code from the error object (defaulting to 500 if not available), and converts the error object to a string for error details. It then renders the 'error.html' template with the error code and error details.
+
+Args:
+    error: The error object.
+
+Returns:
+    The rendered template.
+"""
+    error_code = getattr(error, 'code', 500)
+    error_details = str(error)
+    return render_template('error.html', error_code=error_code, error_details=error_details)
 
 @app.before_request
 def before_request():
+    """
+Executes the before_request function for a Flask application.
+
+The function checks if the 'username' key is not present in the session and if the request endpoint is not one of the excluded paths. If both conditions are met, it redirects the user to the '/login_page' endpoint.
+
+Args:
+    None
+
+Returns:
+    Redirects to page
+"""
+
     if 'username' not in session and request.endpoint not in ['login', 'login_page'] and not any(request.path.startswith(path) for path in excluded_paths):
         return redirect('/login_page')
+    
 
 
 @app.route('/matrix')
 def matrix():
+    """
+Renders the 'matrix.html' template with a speed value of 50.
+
+Args:
+    None
+
+Returns:
+    The rendered template.
+"""
+
     return render_template('matrix.html', speed=50)
+
+
+@app.route('/ss')
+def ss():
+    """
+Renders the 'screenshot.html' template.
+
+Args:
+    None
+
+Returns:
+    The rendered template.
+"""
+
+    return render_template('screenshot.html')
+
+
+@app.route('/screenshot', methods=['POST'])
+def capture_screenshot():
+    """
+Captures a screenshot and returns it as a base64-encoded image.
+
+The function uses the `ImageGrab.grab()` function from the `PIL` library to capture a screenshot. If an exception occurs during the capture, it returns a JSON response with an error message. Otherwise, it saves the screenshot as a PNG image in memory, converts it to base64 encoding, and returns a JSON response with the base64-encoded image.
+
+Args:
+    None
+
+Returns:
+    A JSON response containing the base64-encoded image.
+"""
+    try:
+        screenshot = ImageGrab.grab()
+    except Exception:
+        return jsonify(error='Unable to capture screenshot')
+    img_io = io.BytesIO()
+    screenshot.save(img_io, format='PNG')
+    img_io.seek(0)
+    img_base64 = base64.b64encode(img_io.read()).decode('utf-8')
+    return jsonify(img_base64=img_base64)
+
 
 
 @app.route('/terminal')
 def terminal():
+    """
+Renders the 'sio.html' template.
+
+Args:
+    None
+
+Returns:
+    The rendered template.
+"""
+
     return render_template('sio.html')
 
 @app.route('/login_page/')
 def login_page():
+    """
+Handles the login process for the '/login' endpoint.
+
+The function checks if the 'username' key is already present in the session. If it is, the user is redirected to the root URL '/'. Otherwise, the function retrieves the 'username' and 'password' values from the request form. If the provided username matches the valid username and the provided password matches the hashed password, the user is authenticated by adding the 'username' key to the session and returning a JSON response with a 'success' value of True. Otherwise, a JSON response with an 'error' message is returned.
+
+Args:
+    None
+
+Returns:
+    A JSON response indicating the success or failure of the login process.
+"""
+
     if 'username' in session:
         return redirect("/")
     return render_template('login.html')
@@ -53,6 +155,18 @@ def login_page():
 
 @app.route('/login', methods=['POST'])
 def login_p():
+    """
+Handles the login process for the '/login' endpoint.
+
+The function checks if the 'username' key is already present in the session. If it is, the user is redirected to the root URL '/'. Otherwise, the function retrieves the 'username' and 'password' values from the request form. If the provided username matches the valid username and the provided password matches the hashed password, the user is authenticated by adding the 'username' key to the session and returning a JSON response with a 'success' value of True. Otherwise, a JSON response with an 'error' message is returned.
+
+Args:
+    None
+
+Returns:
+    A JSON response indicating the success or failure of the login process.
+"""
+
     if 'username' in session:
         return redirect("/")
     username = request.form.get('username')
@@ -66,6 +180,18 @@ def login_p():
 
 @socketio.on('execute_code')
 def execute_code(data):
+    """
+Executes the code provided by the client.
+
+The function first checks if the user is not logged in and the current endpoint is not 'login' or 'login_page', and the request path does not start with any of the excluded paths. If these conditions are met, the user is redirected to the '/login_page' endpoint. Otherwise, the function retrieves the code from the 'data' parameter and initializes a UTILS object. It then executes different commands based on the prefix of the code. If the code starts with 'weather', it calls the 'get_weather' method of the UTILS object. If the code starts with 'neofetch', it calls the 'neofetch' method of the UTILS object. Otherwise, it runs the command using the 'run_command' function and captures the output and error. The function then constructs a response string by decoding the output and error, and emits the response to the client using the 'socketio.emit' function.
+
+Args:
+    data (dict): A dictionary containing the code provided by the client.
+
+Returns:
+    None
+"""
+
     if 'username' not in session and request.endpoint not in ['login', 'login_page'] and not any(request.path.startswith(path) for path in excluded_paths):
         return redirect('/login_page')
     command = data['code']
@@ -85,6 +211,18 @@ def execute_code(data):
 
 @app.route('/sys_info')
 def si():
+    """
+Renders the 'si.html' template with system information.
+
+The function retrieves various system information using helper functions and stores them in a context dictionary. The context dictionary includes information about the platform, power, user, memory, disks, and network. The function then renders the 'si.html' template with the context as a parameter.
+
+Args:
+    None
+
+Returns:
+    The rendered template with system information.
+"""
+
     context = {
         'platform_info': get_platform_info(),
         'power_info': get_power_info(),
@@ -97,17 +235,27 @@ def si():
 
 @app.route('/favicon.ico')
 def favicon():
+    """
+Serves the favicon.ico file.
+
+The function returns the favicon.ico file located at './static/img/nicon.png' with the mimetype 'image/png'.
+
+Args:
+    None
+
+Returns:
+    The favicon.ico file as a response.
+"""
+
     return send_file('./static/img/nicon.png', mimetype='image/png')
 
 @app.route('/')
 @app.route('/index/')
 def home():
-    app.logger.info(f'Index page loaded by IP : {request.remote_addr}')
     return render_template('index.html')
 
 @app.route("/sysreq/", methods=['POST'])
 def sysreq():
-    app.logger.info(f'Sysreq page loaded by IP : {request.remote_addr}')
     password = int(request.form.get('password'))
     if password == CONFIG.SYSREQ_PASSWORD:
         handle_system_opp(1)
@@ -117,13 +265,11 @@ def sysreq():
 
 @app.route('/copy', methods=['GET'])
 def copy():
-    app.logger.info(f'Copy page loaded by IP : {request.remote_addr}')
     return render_template('copy.html')
 
          
 @app.route('/copy', methods=['POST'])
 def submit():
-    app.logger.info(f'Copy Submit page loaded by IP : {request.remote_addr}')
     copy_text = request.form.get('copy_text')
     copy_utils = COPY_UTILS()
     if valid := URL_VALIDATOR(copy_text)():
@@ -134,7 +280,6 @@ def submit():
 
 @app.route('/upload')
 def index():
-    app.logger.info(f'Upload page loaded by IP : {request.remote_addr}')
     return render_template('upload.html',
                            page_name='Main',
                            project_name="pydrop")
@@ -171,7 +316,6 @@ def upload():
 
 @app.route('/files/')
 def files():
-    app.logger.info(f'Files page loaded by IP : {request.remote_addr}')
     search_query = request.args.get('search', '').lower()
     path = request.args.get('path', '')
     files_and_folders = get_files_and_folders(base_dl_path, path, search_query)
@@ -179,13 +323,11 @@ def files():
 
 @app.route('/download/<path:filename>')
 def download(filename):
-    app.logger.info(f'Download page loaded by IP : {request.remote_addr}')
     file_path = os_path.join(base_dl_path, filename)
     return send_file(file_path, as_attachment=True)
 
 @app.route('/folder')
 def load_folder_content():
-    app.logger.info(f'Folder page loaded by IP : {request.remote_addr}')
     folder_path = request.args.get('path', '')
     files_and_folders = get_files_and_folders(base_dl_path, folder_path)
     return render_template('folder_content.html', files=files_and_folders)

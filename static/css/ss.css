@@ -1,0 +1,124 @@
+body {
+  background-color: tomato;
+  color: #cccccc;
+  padding-top: 25%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.stuff {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+h3 {
+  font-family: 'Roboto Condensed';
+  color: #fff;
+  font-weight: 300;
+}
+
+.button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 10px;
+  width: 70px;
+  height: 70px;
+  font-size: 52px;
+  transition: all 0.4s ease-in;
+}
+
+.button span[class^='ion'] {
+  position: relative;
+}
+
+.button:before {
+  content: '';
+  background-color: aliceblue;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: scale(0.001, 0.001);
+}
+
+.button:focus {
+  outline: 0;
+  color: #fff;
+}
+
+.button:focus:before {
+  -webkit-animation: effect_dylan 0.8s ease-out;
+  animation: effect_dylan 0.8s ease-out;
+}
+
+@-webkit-keyframes effect_dylan {
+  50% {
+    transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
+}
+
+@keyframes effect_dylan {
+  50% {
+    transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
+}
+
+#imageContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 70px; /* Adjust bottom to leave space for the button */
+  text-align: center;
+  display: none;
+}
+
+#screenshotImage {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: auto;
+}
+
+.fixed-button-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  z-index: 1;
+}
+
+.container {
+  padding-top: 20px;
+}

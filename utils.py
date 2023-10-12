@@ -63,15 +63,6 @@ def get_ipv4_address(logger: Logger) -> str:
         return "0.0.0.0"
     
 
-def screenshot():
-    img = ImageGrab.grab(bbox=(0, 0, 800, 600), include_layered_windows=True)  # Adjust the bbox as needed
-    buffered = io.BytesIO()
-    img.save(buffered, format="PNG")
-    return buffered.getvalue()
-
-def generate():
-    return (b'--frame\r\n'
-               b'Content-Type: image/png\r\n\r\n' + screenshot() + b'\r\n\r\n')
     
 
 def check_folder_exists(folder_path: Union[str, list]) -> bool:
