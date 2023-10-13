@@ -1,0 +1,176 @@
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+body {
+    font-family: 'Pacifico';
+    overflow: hidden;
+    background-color: #f5f5f5; 
+}
+
+.header,
+.search-container,
+.file-list-container,
+.file-list,
+.file-list-item {
+    background: transparent; 
+}
+
+.header {
+    color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px; 
+    width: 100%;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.file-list-container {
+    max-height: calc(100vh - 90px); 
+    overflow-y: scroll;
+    width: 100%; 
+    padding: 0 20px; 
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%; 
+}
+
+.file-list-item {
+    width: 30%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.file-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.5); 
+}
+
+.file-icon {
+    font-size: 36px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.file-name {
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.back-button {
+    font-size: 24px;
+    color: white;
+    padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+}
+
+
+.back-nice {
+    width: 130px;
+    height: 40px;
+    line-height: 42px;
+    padding: 0;
+    border: none;
+    background: rgb(255,27,0);
+  background: linear-gradient(0deg, rgba(255,27,0,1) 0%, rgba(251,75,2,1) 100%);
+  }
+  .back-nice:hover {
+    color: black;
+    background: transparent;
+     box-shadow:none;
+  }
+  .back-nice:before,
+  .back-nice:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: #f0094a;
+    box-shadow:
+     -1px -1px 5px 0px #fff,
+     7px 7px 20px 0px #0003,
+     4px 4px 5px 0px #0002;
+    transition:400ms ease all;
+  }
+  .back-nice:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+  }
+  .back-nice:hover:before,
+  .back-nice:hover:after{
+    width:100%;
+    transition:800ms ease all;
+  }

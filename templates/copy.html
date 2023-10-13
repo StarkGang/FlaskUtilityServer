@@ -6,7 +6,7 @@
     <title>Copy To Server</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/min/dropzone.min.css">
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/copy.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
@@ -32,8 +32,6 @@
             </div>
         </form>
     </div>
-
-    <!-- Overlay and Popup -->
     <div class="overlay" id="overlay"></div>
     <div class="popup" id="popup">
         <h2>Notice</h2>
@@ -95,8 +93,6 @@
                 }
             });
         });
-
-        // Adding event handler using jQuery
         $("#popup button").on("click", function () {
             closePopup();
         });

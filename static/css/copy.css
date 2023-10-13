@@ -145,9 +145,9 @@ form .form-row .textarea{
     width: 40%!important;
   }
 }
-        /* Your existing styles */
+        
 
-        /* Popup styles */
+        
         .overlay {
           display: none;
           position: fixed;
@@ -167,7 +167,7 @@ form .form-row .textarea{
           left: 50%;
           transform: translate(-50%, -50%);
           padding: 20px;
-          border: 5px solid transparent; /* Set a transparent border initially */
+          border: 5px solid transparent; 
           border-image: linear-gradient(to right, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #9400d3);
           border-image-slice: 1;
           border-radius: 10px;
@@ -175,7 +175,7 @@ form .form-row .textarea{
           text-align: center;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           z-index: 1001;
-          background: black; /* Background color for the popup */
+          background: black; 
       }
 
       .popup h2 {
@@ -197,10 +197,10 @@ form .form-row .textarea{
       }
 
       .popup button:hover {
-          background-color: #006400; /* Adjust the hover background color to your preference */
+          background-color: #006400; 
       }
 
-      /* Type-writing effect */
+      
       .typewriter {
           overflow: hidden;
           display: inline-block;

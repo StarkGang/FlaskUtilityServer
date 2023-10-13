@@ -123,7 +123,7 @@ Returns:
 @app.route('/terminal')
 def terminal():
     """
-Renders the 'sio.html' template.
+Renders the 'terminal.html' template.
 
 Args:
     None
@@ -132,7 +132,7 @@ Returns:
     The rendered template.
 """
 
-    return render_template('sio.html')
+    return render_template('terminal.html')
 
 @app.route('/login_page/')
 def login_page():
@@ -212,9 +212,9 @@ Returns:
 @app.route('/sys_info')
 def si():
     """
-Renders the 'si.html' template with system information.
+Renders the 'system_info.html' template with system information.
 
-The function retrieves various system information using helper functions and stores them in a context dictionary. The context dictionary includes information about the platform, power, user, memory, disks, and network. The function then renders the 'si.html' template with the context as a parameter.
+The function retrieves various system information using helper functions and stores them in a context dictionary. The context dictionary includes information about the platform, power, user, memory, disks, and network. The function then renders the 'system_info.html' template with the context as a parameter.
 
 Args:
     None
@@ -231,14 +231,14 @@ Returns:
         'disk_info': get_disks_info(),
         'network_info': get_network_info(),
     }
-    return render_template("si.html", context=context)
+    return render_template("system_info.html", context=context)
 
 @app.route('/favicon.ico')
 def favicon():
     """
 Serves the favicon.ico file.
 
-The function returns the favicon.ico file located at './static/img/nicon.png' with the mimetype 'image/png'.
+The function returns the favicon.ico file located at './static/img/icon.png' with the mimetype 'image/png'.
 
 Args:
     None
@@ -247,7 +247,7 @@ Returns:
     The favicon.ico file as a response.
 """
 
-    return send_file('./static/img/nicon.png', mimetype='image/png')
+    return send_file('./static/img/icon.png', mimetype='image/png')
 
 @app.route('/')
 @app.route('/index/')

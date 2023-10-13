@@ -5,41 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Explorer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/fl.css">
+    <link rel="stylesheet" href="../static/css/files.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <button class="back-button" onclick="goBack()">&#8592; Back</button>
-            <h1>File Explorer</h1>
-        </div>
+    <div class="header">
+        <button class="back-button back-nice" onclick="goBack()">&#8592; Back</button>
+        <h1>File Explorer</h1>
+    </div>
 
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search files..." value="{{ search_query }}" oninput="searchFiles(this.value)">
-            <button class="search-button" onclick="searchFiles(document.querySelector('.search-input').value)">Search</button>
-        </div>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search files..." value="{{ search_query }}" oninput="searchFiles(this.value)">
+        <button class="search-button" onclick="searchFiles(document.querySelector('.search-input').value)">Search</button>
+    </div>
 
-        <div class="file-list-container">
-            <ul class="file-list">
-                {% if current_path %}
-                    <li class="file-list-item">
-                        <img class="file-icon folder-icon" src="../static/img/fd.png" alt="Folder" data-path="{{ current_path }}">
-                        <span class="file-name">{{ current_path }}</span>
-                    </li>
-                {% endif %}
-                {% for file in files %}
-                    <li class="file-list-item">
-                        {% if file.type == 'folder' %}
-                            <img class="file-icon folder-icon" src="../static/img/fd.png" alt="Folder" data-path="{{ file.name }}">
-                            <span class="file-name">{{ file.name }}</span>
-                        {% else %}
-                            <img class="file-icon" src="../static/img/file_sy.png" alt="File">
-                            <a href="{{ url_for('download', filename=file.name) }}" class="file-name">{{ file.name }}</a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+    <div class="file-list-container">
+        <ul class="file-list">
+            {% if current_path %}
+                <li class="file-list-item">
+                    <img class="file-icon folder-icon" src="../static/img/folder_icon.png" alt="Folder" data-path="{{ current_path }}">
+                    <span class="file-name">{{ current_path }}</span>
+                </li>
+            {% endif %}
+            {% for file in files %}
+                <li class="file-list-item">
+                    {% if file.type == 'folder' %}
+                        <img class="file-icon folder-icon" src="../static/img/folder_icon.png" alt="Folder" data-path="{{ file.name }}">
+                        <span class="file-name">{{ file.name }}</span>
+                    {% else %}
+                        <img class="file-icon" src="../static/img/file_icon.png" alt="File">
+                        <a href="{{ url_for('download', filename=file.name) }}" class="file-name">{{ file.name }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 
     <script>
@@ -75,14 +73,25 @@
             xhr.open('GET', `/folder?path=${folderPath}`);
             xhr.send();
         }
-
-        // Change background color randomly
         function changeBackgroundColor() {
-            const randomColor = getRandomColor();
-            document.body.style.backgroundColor = randomColor;
-            document.querySelector('.container').style.backgroundColor = '#fff'; // Reset container background color
-            setTimeout(changeBackgroundColor, 5000); // Change color every 5 seconds
-        }
+    const gradients = [
+        'linear-gradient(45deg, #fe8dc6, #fed1c7)',
+        'linear-gradient(45deg, #7f00ff, #e100ff)',
+        'linear-gradient(45deg, #fbb040, #f9ed32)',
+        'linear-gradient(45deg, #00a1ff, #00ff8f)',
+        'linear-gradient(45deg, #ee2a7b, #ff7db8)',
+        'linear-gradient(45deg, #ff00d4, #00dff)',
+        'linear-gradient(45deg, #ef4136, #fbb040)',
+        'linear-gradient(45deg, #2d388a, #00aeef)'
+    ];
+
+    const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+
+    document.body.style.background = randomGradient;
+    document.querySelector('.file-list-container').style.background = 'transparent'; 
+    setTimeout(changeBackgroundColor, 5000); 
+}
+
 
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
@@ -92,8 +101,6 @@
             }
             return color;
         }
-
-        // Initial call to start changing background color
         changeBackgroundColor();
     </script>
 </body>

@@ -1,10 +1,10 @@
 {% for file in files %}
     <li class="file-list-item">
         {% if file.type == 'folder' %}
-            <img class="file-icon folder-icon" src="../static/img/fd.png" alt="Folder" data-path="{{ file.name }}">
+            <img class="file-icon folder-icon" src="../static/img/folder_icon.png" alt="Folder" data-path="{{ file.name }}">
             <span>{{ file.name }}</span>
         {% else %}
-            <img class="file-icon" src="../static/img/file_sy.png" alt="File">
+            <img class="file-icon" src="../static/img/file_icon.png" alt="File">
             <a href="{{ url_for('download', filename=file.name) }}">{{ file.name }}</a>
         {% endif %}
     </li>

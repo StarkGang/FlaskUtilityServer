@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>File upload with Dropzone</title>
+    <title>File upload</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/min/dropzone.min.css">
-    <link rel="stylesheet" href="../static/css/up.css">
+    <link rel="stylesheet" href="../static/css/upload.css">
 </head>
 
 <body>
@@ -62,8 +62,7 @@
             forceChunking: true,
             chunkSize: 1000000,
             init: function () {
-                var myDropzone = this; // Store a reference to the Dropzone instance
-
+                var myDropzone = this; 
                 this.on("sending", function (file, xhr, formData) {
                     formData.append("key", "value");
                 });
@@ -75,10 +74,8 @@
                 this.on("error", function (file, errorMessage) {
                     console.log(errorMessage);
                 });
-
-                // Add click event handler for the Cancel button
                 document.getElementById('btnCancel').addEventListener('click', function () {
-                    myDropzone.removeAllFiles(); // Clear all files
+                    myDropzone.removeAllFiles();
                 });
             }
         };

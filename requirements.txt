@@ -8,4 +8,4 @@ python-dotenv==1.0.0
 requests==2.31.0
 Werkzeug==3.0.0
 PyAutoGUI==0.9.54
-pillow
+pillow==10.0.1

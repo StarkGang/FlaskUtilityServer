@@ -63,7 +63,6 @@ def get_ipv4_address(logger: Logger) -> str:
         return "0.0.0.0"
     
 
-    
 
 def check_folder_exists(folder_path: Union[str, list]) -> bool:
     """Check if the folder exists"""
@@ -76,7 +75,7 @@ def check_folder_exists(folder_path: Union[str, list]) -> bool:
 def logger_setup(app: Flask) -> None:
     """Setup the logger"""
     log_formatter = Formatter('%(asctime)s %(levelname)s %(funcName)s(%(lineno)d) %(message)s')
-    log_handler = RotatingFileHandler('traceback.log', maxBytes=100000, backupCount=1)
+    log_handler = RotatingFileHandler('flaskutilityserver_logs', maxBytes=100000, backupCount=1)
     log_handler.setFormatter(log_formatter)
     app.logger.addHandler(log_handler)
     app.logger.setLevel(INFO)

@@ -96,7 +96,7 @@ h3 {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 70px; /* Adjust bottom to leave space for the button */
+  bottom: 70px; 
   text-align: center;
   display: none;
 }
